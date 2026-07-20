@@ -16,15 +16,24 @@ export default function PokemonList(){
         });
     }, []);
 
-    return(
-        <Grid container spacing={2}>
-            {pokemons.map(
-                (pokemonItem => (
-                    <Grid key={pokemonItem.id} size={{ xs: 12, sm: 6, md: 4 }}>
-                        <PokemonCard pokemon={pokemonItem}/>
-                    </Grid>
-                ))
-            )}
+    return (
+        <Grid
+            container
+            spacing={3}
+            sx={{ mt: 2 }}
+        >
+            {pokemons.map((pokemonItem) => (
+                <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={pokemonItem.id}
+                >
+                    <PokemonCard pokemon={pokemonItem} />
+                </Grid>
+            ))}
         </Grid>
-    )
+    );
 }
