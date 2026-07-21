@@ -3,18 +3,29 @@ import { Grid } from "@mui/material";
 // import { pokemons } from "../data/pokemons";
 import { fetchPokemons } from "../services/pokemonService";
 import PokemonCard from "./PokemonCard";
+import Spinner from "./Spinner";
 
-export default function PokemonList(){
+export default function PokemonList() {
     const [pokemons, setPokemons] = useState([]);
-    
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        fetchPokemons().then((data) => {
-            setPokemons(data);
-        }).catch((error) => {
-            alert("Error obteniendo pokemons. Por favor, inténtelo de nuevo más tarde.");
-            console.error("Error obteniendo pokemons:", error);
-        });
+        fetchPokemons()
+            .then((data) => {
+                setPokemons(data);
+            })
+            .catch((error) => {
+                alert("Error obteniendo pokemons. Por favor, inténtelo de nuevo más tarde.");
+                console.error("Error obteniendo pokemons:", error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, []);
+
+    if (loading) {
+        return <Spinner />;
+    }
 
     return (
         <Grid

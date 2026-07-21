@@ -1,7 +1,6 @@
-import { Container, Toolbar, AppBar, Button } from "@mui/material";
+import { Container, Toolbar, AppBar, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-
-const token = localStorage.getItem("access_token");
+import Logo_Poke from "../assets/Logo_Poke.png";
 
 export default function Header() {
 
@@ -14,6 +13,7 @@ export default function Header() {
         window.location.href = "/login";
     }
 
+
     return (
 
         <Container>
@@ -22,6 +22,20 @@ export default function Header() {
 
                 <Toolbar>
 
+                    {/* Logo Pokémon */}
+                    <Box
+                        component="img"
+                        src={Logo_Poke}
+                        alt="Logo Pokémon"
+                        sx={{
+                            width: 150,
+                            height: "auto",
+                            mr: 3,
+                            cursor: "pointer"
+                        }}
+                    />
+
+
                     <Button
                         color="inherit"
                         component={Link}
@@ -29,6 +43,7 @@ export default function Header() {
                     >
                         Inicio
                     </Button>
+
 
                     {!token ? (
 
@@ -43,6 +58,7 @@ export default function Header() {
                     ) : (
 
                         <>
+
                             <Button
                                 color="inherit"
                                 component={Link}
@@ -51,15 +67,10 @@ export default function Header() {
                                 Agregar Pokémon
                             </Button>
 
+
                             <Button
                                 color="inherit"
-                                onClick={() => {
-
-                                    localStorage.removeItem("access_token");
-
-                                    window.location.href = "/login";
-
-                                }}
+                                onClick={cerrarSesion}
                             >
                                 Cerrar sesión
                             </Button>

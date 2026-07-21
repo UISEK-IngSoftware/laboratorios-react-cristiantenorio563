@@ -5,7 +5,7 @@ import PokemonList from './components/PokemonList'
 import Login from './pages/Login'
 import { Container } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 const token = localStorage.getItem("access_token");
 
