@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { Box, TextField, Typography, Button, MenuItem } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { createPokemon, fetchEntrenadores } from "../services/pokemonService";
+import { useNavigate, useParams } from "react-router-dom";
+import { createPokemon, fetchEntrenadores, fetchPokemonById, updatePokemon } from "../services/pokemonService";
 import Spinner from "./Spinner";
 
 export default function PokemonForm() {
 
     const navigate = useNavigate();
+
+    const { id } = useParams();
+
+    const editando = Boolean(id);
 
     const [entrenadores, setEntrenadores] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,14 +27,30 @@ export default function PokemonForm() {
     });
 
     useEffect(() => {
-
-        fetchEntrenadores()
-            .then(data => setEntrenadores(data))
-            .catch(console.error)
-            .finally(() => setLoading(false));
-
-    }, []);
-
+        async function cargarDatos() {
+            try {
+                const entrenadoresData = await fetchEntrenadores();
+                setEntrenadores(entrenadoresData);
+                if (editando) {
+                    const pokemonData = await fetchPokemonById(id);
+                    setPokemon({
+                        nombre: pokemonData.nombre,
+                        tipo: pokemonData.tipo,
+                        peso: pokemonData.peso,
+                        altura: pokemonData.altura,
+                        imagen: pokemonData.imagen,
+                        video: pokemonData.video,
+                        entrenador: pokemonData.entrenador
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        cargarDatos();
+    }, [id]);
 
     const handleChange = (e) => {
 
@@ -50,9 +70,13 @@ export default function PokemonForm() {
 
             setSaving(true);
 
-            await createPokemon(pokemon);
-
-            alert("Pokémon creado correctamente");
+            if (editando) {
+                await updatePokemon(id, pokemon);
+                alert("Pokémon actualizado correctamente");
+            } else {
+                await createPokemon(pokemon);
+                alert("Pokémon creado correctamente");
+            }
 
             navigate("/");
 
@@ -87,7 +111,7 @@ export default function PokemonForm() {
 
         <>
             <Typography variant="h4" gutterBottom>
-                Formulario de Pokémon
+                {editando ? "Editar Pokémon" : "Agregar Pokémon"}
             </Typography>
 
             <Box
@@ -184,7 +208,7 @@ export default function PokemonForm() {
                     type="submit"
                     disabled={saving}
                 >
-                    Guardar
+                    {editando ? "Actualizar" : "Guardar"}
                 </Button>
 
 

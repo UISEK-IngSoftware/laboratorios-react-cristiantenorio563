@@ -44,6 +44,13 @@ export default function Header() {
                         Inicio
                     </Button>
 
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to="/entrenadores"
+                    >
+                        Entrenadores
+                    </Button>
 
                     {!token ? (
 
@@ -67,6 +74,13 @@ export default function Header() {
                                 Agregar Pokémon
                             </Button>
 
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/entrenadores/add"
+                            >
+                                Agregar Entrenador
+                            </Button>
 
                             <Button
                                 color="inherit"

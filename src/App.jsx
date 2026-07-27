@@ -1,53 +1,85 @@
-import './App.css'
-import Header from './components/Header'
-import PokemonForm from './components/PokemonForm'
-import PokemonList from './components/PokemonList'
-import Login from './pages/Login'
-import { Container } from '@mui/material'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import "./App.css";
+import Header from "./components/Header";
+import PokemonForm from "./components/PokemonForm";
+import PokemonList from "./components/PokemonList";
+import EntrenadorList from "./components/EntrenadorList";
+import EntrenadorForm from "./components/EntrenadorForm";
+import Login from "./pages/Login";
+import { Container } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
-
-const token = localStorage.getItem("access_token");
 
 function App() {
 
-  return (
+    return (
 
-    <BrowserRouter>
+        <BrowserRouter>
 
-      <Header />
+            <Header />
 
-      <Container sx={{ mt: 3 }}>
+            <Container sx={{ mt: 3 }}>
 
-        <Routes>
+                <Routes>
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
+                    <Route
+                        path="/"
+                        element={<PokemonList />}
+                    />
 
-          <Route
-            path="/"
-            element={<PokemonList />}
-          />
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
 
-          <Route
-              path="/add"
-              element={
-                  <ProtectedRoute>
-                      <PokemonForm />
-                  </ProtectedRoute>
-              }
-          />
+                    <Route
+                        path="/add"
+                        element={
+                            <ProtectedRoute>
+                                <PokemonForm />
+                            </ProtectedRoute>
+                        }
+                    />
 
-        </Routes>
+                    <Route
+                        path="/edit/:id"
+                        element={
+                            <ProtectedRoute>
+                                <PokemonForm />
+                            </ProtectedRoute>
+                        }
+                    />
 
-      </Container>
+                    <Route
+                        path="/entrenadores"
+                        element={<EntrenadorList />}
+                    />
 
-    </BrowserRouter>
+                    <Route
+                        path="/entrenadores/add"
+                        element={
+                            <ProtectedRoute>
+                                <EntrenadorForm />
+                            </ProtectedRoute>
+                        }
+                    />
 
-  )
+                    <Route
+                        path="/entrenadores/edit/:id"
+                        element={
+                            <ProtectedRoute>
+                                <EntrenadorForm />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                </Routes>
+
+            </Container>
+
+        </BrowserRouter>
+
+    );
 
 }
 
-export default App
+export default App;
